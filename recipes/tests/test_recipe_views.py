@@ -44,7 +44,13 @@ class RecipeViewsTest(TestCase):
             is_published = True, 
         )
 
-        assert 1==1
+        response = self.client.get(reverse("recipes:home"))
+        content = response.content.decode("utf-8")
+        context_recipes = response.context['recipes']
+        self.assertIn("Recipe Tilte", content)
+        self.assertIn("10 minutos", content)
+        self.assertIn("5 porções", content)
+        self.assertEqual(len(context_recipes), 1)
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(
