@@ -33,6 +33,16 @@ class RecipeViewsTest(RecipeTesteBase):
         context_recipes = response.context['recipes']
         self.assertIn("Recipe Tilte", content)
         self.assertEqual(len(context_recipes), 1)
+    
+    def test_recipe_home_template_dont_load_recipes_not_published(self):
+        """Test Recipe is_published False dont show"""
+        #need a recipe for this test
+        self.make_recipe(is_published=False)
+        response = self.client.get(reverse("recipes:home"))
+        self.assertIn(
+            "No recipes found here.",
+            response.content.decode('utf-8')
+        )
 
     def test_recipe_category_view_function_is_correct(self):
         view = resolve(
