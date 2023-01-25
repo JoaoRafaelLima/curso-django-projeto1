@@ -1,16 +1,29 @@
-from .test_recipe_base import RecipeTesteBase
+from .test_recipe_base import RecipeTesteBase, Recipe
 from django.core.exceptions import ValidationError
 from parameterized import parameterized
+
+
 
 class RecipeModelTest(RecipeTesteBase):
     def setUp(self) -> None:
         self.recipe = self.make_recipe()
         return super().setUp()
-    def test_recipe_title_raises_error_if_title_has_more_than_65_chars(self):
-        self.recipe.title = "A" * 70
-
-        with self.assertRaises(ValidationError):
-            self.recipe.full_clean()
+    def make_recipe_no_defaults(self):
+        recipe = Recipe(
+            category=self.make_category(name="Test Default Category"),
+            author=self.make_author(username="newuser"),
+            title = 'Recipe Tilte',
+            description = 'recipe Description',
+            slug = 'recipe-slug',
+            preparation_time = 10,
+            preparation_time_unit = "minutos", 
+            servings = 5,
+            servings_unit = 'porções', 
+            preparation_steps = 'Recipe Preparation Steps'
+        )
+        recipe.full_clean()
+        recipe.save()
+        return recipe
     @parameterized.expand([
         ("title", 65),
         ("description", 165),
@@ -22,4 +35,15 @@ class RecipeModelTest(RecipeTesteBase):
         with self.assertRaises(ValidationError):
             self.recipe.full_clean()
 
+    def test_preparation_steps_is_html_is_false_by_default(self):
+        recipe = self.make_recipe_no_defaults()
+        self.assertFalse(
+            recipe.preparation_steps_is_html,
+            msg="Recipe preparation_steps_is_html is not False")
+
+    def test_is_published_is_false_by_default(self):
+        recipe = self.make_recipe_no_defaults()
+        self.assertFalse(
+            recipe.is_published,
+            msg="Recipe is_published is not False")
     

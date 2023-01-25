@@ -19,11 +19,11 @@ class RecipeTesteBase(TestCase):
         email = "username@gmail.com"):
 
         return User.objects.create_user(
-            first_name = "user",
-            last_name = "name",
-            username = "username",
-            password= "123456",
-            email = "username@gmail.com",
+            first_name = first_name,
+            last_name = last_name,
+            username = username,
+            password= password,
+            email = email,
         )
     def make_recipe(
         self,
