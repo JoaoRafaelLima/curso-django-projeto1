@@ -4,7 +4,7 @@ from .models import Recipe
 from django.http import Http404
 from utils.pagination import make_pagination
 import os
-from django.contrib import messages
+
 
 PER_PAGE = int(os.environ.get("PER_PAGE", 6))
 
@@ -48,8 +48,6 @@ def recipe(request, id):
     })
 
 def search(request):
-    messages.success(request, "Você pesquisou algo que eu vi")
-    messages.error(request, "Você pesquisou algo que eu vi")
     search_term = request.GET.get("q","").strip()
     if not search_term:
         raise Http404()
