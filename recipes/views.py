@@ -4,7 +4,7 @@ from .models import Recipe
 from django.http import Http404
 from utils.pagination import make_pagination
 import os
-
+from django.contrib import messages
 
 PER_PAGE = int(os.environ.get("PER_PAGE", 6))
 
@@ -13,7 +13,6 @@ def home(request):
     recipes = Recipe.objects.filter(is_published=True).order_by("-id")
 
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
-
     return render(request, "recipes/pages/home.html", context={
         "recipes": page_obj,
         "pagination_range": pagination_range
@@ -49,6 +48,7 @@ def recipe(request, id):
     })
 
 def search(request):
+    messages.success(request, "Hummm....")
     search_term = request.GET.get("q","").strip()
     if not search_term:
         raise Http404()
