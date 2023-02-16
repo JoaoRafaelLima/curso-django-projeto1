@@ -47,11 +47,13 @@ class RegisterForm(forms.ModelForm):
         ),
         validators=[
             strong_password
-        ]
+        ],
+        label="Password"
     )
     password2 = forms.CharField(
         required=True,
-        widget=forms.PasswordInput(attrs={})
+        widget=forms.PasswordInput(attrs={}),
+        label="Password2"
     )
     class Meta:
         model = User
@@ -67,8 +69,7 @@ class RegisterForm(forms.ModelForm):
             "username": "Username",
             "first_name": "First name",
             "last_name": "Last name",
-            "email": "E-mail",
-            "password": "Password",
+            "email": "E-mail"
         }
         help_texts = {
             "email": "The e-mail must be a valid"
@@ -79,15 +80,6 @@ class RegisterForm(forms.ModelForm):
             }
         }
       
-    def clean_password(self):
-        data = self.cleaned_data.get("password")
-        if "atenção" in data:
-            raise ValidationError(
-                'Não digite %(value)s  no campo password',
-                code='invalid',
-                params={'value': "atenção"}
-            )
-        return data
     
     def clean(self):
         cleaned_data = super().clean()
