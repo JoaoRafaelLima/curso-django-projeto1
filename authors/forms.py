@@ -33,7 +33,21 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields["last_name"], "Ex.: Doe")
         add_placeholder(self.fields["password"], "Type your password here")
         add_placeholder(self.fields["password2"], "Repeat your password here")
+    username = forms.CharField(
+        label="Username",
+        help_text=(
+            "Username must have letters, number or one of those  @.+-_ . ",
+            "The length shold be between 4 and 150 characters."
 
+        ),
+        error_messages = {
+            "required": "This field must be not empty",
+            "min_length": "Username must have at least 4 characters",
+            "max_length": "Username must have less then 150 characters"
+        },
+        min_length=4,
+        max_length=150
+    )
     first_name = forms.CharField(
         error_messages={
             "required": "Write your first name"
@@ -85,18 +99,7 @@ class RegisterForm(forms.ModelForm):
             "password"
             ]
         # exclude = ['first_name']
-        labels = {
-            "username": "Username",
-           
-            "last_name": "Last name",
-            "email": "E-mail"
-        }
-        
-        error_messages = {
-            "username": {
-                "required": "This field must be not empty"
-            }
-        }
+       
       
     
     def clean(self):
