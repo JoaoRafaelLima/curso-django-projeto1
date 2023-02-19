@@ -100,7 +100,14 @@ class RegisterForm(forms.ModelForm):
             ]
         # exclude = ['first_name']
        
-      
+    
+    def clean_email(self):
+        email = self.cleaned_data.get("email", "")
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError("User e-mail already in use", code="invalid")
+        return email
     
     def clean(self):
         cleaned_data = super().clean()
