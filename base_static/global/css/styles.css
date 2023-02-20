@@ -373,3 +373,14 @@ h1, h2, h3, h4, h5, h6{
    background-color: var(--color-primary-dark);
    color: var(--color-white)
 }
+.inline-form{
+   display: inline;
+}
+.plain-text-button{
+   display: inline;
+   border: none;
+   background: none;
+   cursor: pointer;
+   color: var(--color-primary);
+   font-size: 1.6rem;
+}

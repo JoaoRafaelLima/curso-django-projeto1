@@ -5,11 +5,15 @@
     <div class="main-content center container">
         <h2>Login</h2>
         {% if request.user.is_authenticated %}
-            <p>
-                You are logged with {{ request.user.username }}.
+            <div>
+                You are logged with <b>{{ request.user.username }}</b>.
                 Please,
-                <a href="{% url 'authors:logout' %}">Click here </a> to logout.
-            </p>
+                <form class="inline-form" action="{% url 'authors:logout' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="username" value="{{ request.user.username }}">
+                   <button class="plain-text-button" type="submit">click here</button>
+                </form> to logout.
+            </div>
         {% endif %}
     </div>
     {% include 'global/partials/messages.html' %}
