@@ -5,5 +5,7 @@ app_name = "authors"
 
 urlpatterns = [
     path("register/", register_view, name="register"),
-    path("register/create/", register_create, name="create"),
+    path("register/create/", register_create, name="register_create"),
+    path("login/", register_view, name="login"),
+    path("login/create/", register_create, name="login_create"),
 ]
