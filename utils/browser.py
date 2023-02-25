@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
-
+import os
 
 # CASO fosse do jeito do selanium antigo:
 
@@ -17,6 +17,8 @@ def make_chrome_browser(*options):
     if options is not None:
         for option in options:
             chrome_options.add_argument(option)
+    if os.environ.get("SELENIUM_HEADLESS") == '1':
+        chrome_options.add_argument("--headless")
 
     servico = Service(ChromeDriverManager().install())
     browser = webdriver.Chrome(service=servico, options=chrome_options)
