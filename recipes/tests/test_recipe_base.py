@@ -53,7 +53,12 @@ class RecipeMixing:
                 preparation_steps_is_html = preparation_steps_is_html, 
                 is_published = is_published, 
             )
-
+    def make_recipe_in_batch(self, qtd=10):
+        recipes = []
+        for i in range(qtd):
+            kwargs = {"slug": f"s-{i}", "author_data":{"username": f"u-{i}"} }
+            recipes.append(self.make_recipe(**kwargs))
+        return recipes
 
 class RecipeTesteBase(TestCase, RecipeMixing):
     def setUp(self) -> None:
